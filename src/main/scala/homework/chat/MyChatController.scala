@@ -27,7 +27,8 @@ class MyChatController {
   @FXML private[chat] def sendButton(event: ActionEvent): Unit = {
     val mes = messageVisitor.getText
     showV(memberName, mes)
-    ChatCluster.chatActor ! UserMessage(mes)
+    ChatCluster.chatActor ! SendGroupMessage(mes)
+    ChatCluster.chatActor ! SendPrivateMessage("2", mes)
     messageVisitor.setText("")
   }
 
@@ -41,6 +42,11 @@ class MyChatController {
     })
   }
 
+  def showHistory(history: String): Unit = {
+    Platform.runLater(() => {
+      text.setText(history)
+    })
+  }
   @FXML private[chat] def initialize(): Unit = {
   visitors.getItems.addAll("123","345","24")
     visitors.getSelectionModel.getSelectedIndex
